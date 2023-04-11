@@ -8,7 +8,7 @@ public class CameraChange_3 : MonoBehaviour
     [SerializeField] private float camLeftLimit = 90f;
     [SerializeField] private float camRigthLimit = 320f;
     [SerializeField] private float camTopLimit = 22.5f;
-    [SerializeField] private float camBottmoLimit;
+    [SerializeField] private float camBottomLimit;
 
     private float _playerCurrentPosition;
     private float _changeZoom = 20f;
@@ -57,7 +57,7 @@ public class CameraChange_3 : MonoBehaviour
         if (_playerCurrentPosition > 0f)
         {
             cameraFollow.zoom = _changeZoom;
-            cameraFollow.ChangeCameraLimits(camLeftLimit, camRigthLimit, camTopLimit, camBottmoLimit);
+            cameraFollow.ChangeCameraLimits(camLeftLimit, camRigthLimit, camTopLimit, camBottomLimit);
         }
     }
     void ChekWherePlayer() // Отключение изменений камеры
