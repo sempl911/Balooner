@@ -10,6 +10,7 @@ public class ChopperHealth : MonoBehaviour
     [SerializeField] private GameObject chopperCanvas;
     [SerializeField] private AudioSource chopperDamage;
     [SerializeField] private GameObject modelChopper;
+    [SerializeField] private GameObject _smokeEffect;
 
     private Material matDefault;
     private Material matBlink;
@@ -18,6 +19,7 @@ public class ChopperHealth : MonoBehaviour
     private float _health;
     private float _timer = 4f;
     private bool _isAtacking = false;
+    private bool _SmokeVFX = false;
 
     private void Start()
     {
@@ -37,6 +39,7 @@ public class ChopperHealth : MonoBehaviour
             chopperCanvas.SetActive(false);
             _timer = 4f;
         }
+        SmokeEffect();
     }
     public void ReduceDamage(float damage)
     {
@@ -52,6 +55,7 @@ public class ChopperHealth : MonoBehaviour
         {
             Invoke("ResetMaterial", .2f);
         }
+        _SmokeVFX = true;
     }
     private void Die()
     {
@@ -81,5 +85,20 @@ public class ChopperHealth : MonoBehaviour
     private void ResetMaterial()
     {
         spritRend.material = matDefault;
+    }
+    void SmokeEffect()
+    {
+        if (_SmokeVFX)
+        {
+            _smokeEffect.SetActive(true);
+        }
+        else
+        {
+            _smokeEffect.SetActive(false);
+        }
+        if (_health<=0)
+        {
+            _smokeEffect.SetActive(false);
+        }
     }
 }

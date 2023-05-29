@@ -28,6 +28,7 @@ public class PauseController : MonoBehaviour
         _pauseClickSound.Play();
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentScene);
+        Time.timeScale = 1;
     }
     public void SettingsButton()
     {

@@ -11,7 +11,7 @@ public class LaserStaticController : MonoBehaviour
     [SerializeField] private GameObject endVFX;// Particle end Effect
     private Transform _player;
 
-    private List<ParticleSystem> particles = new List<ParticleSystem>();
+    private List <ParticleSystem> particles = new List<ParticleSystem>();
 
     LaserSwitcher _laserSwitcher;
     PlayerHealth _playerDamage;
@@ -82,7 +82,10 @@ public class LaserStaticController : MonoBehaviour
         if (hit)
         {
             line.SetPosition(1, hit.point);
-            DamageLaser();
+            if (hit.collider.tag == "Player")
+            {
+                DamageLaser();
+            }
         }
         endVFX.transform.position = line.GetPosition(1);//Line Renderer last position
     }

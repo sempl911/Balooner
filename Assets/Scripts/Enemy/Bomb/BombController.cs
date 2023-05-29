@@ -40,7 +40,7 @@ public class BombController : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, transform.position.y - speed * Time.deltaTime);
         }
-        if(health <=0)
+        if (health <=0)
         {
             DestroyBomb();
         }
@@ -53,8 +53,9 @@ public class BombController : MonoBehaviour
             // gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             changeHealth.ReduceDamage(20f);
             DestroyBomb();
+            bombExplosion.Play();
         }
-        if(collision.gameObject.CompareTag("PlayerProjectile"))
+        if (collision.gameObject.CompareTag("PlayerProjectile"))
         {
             health--;
             Destroy(collision.gameObject);
@@ -64,7 +65,6 @@ public class BombController : MonoBehaviour
     private void DestroyBomb()
     {
         bombAnimator.SetTrigger("BombExp");
-        bombExplosion.Play();
         Destroy(gameObject,.4f);
     }
     

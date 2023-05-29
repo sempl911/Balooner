@@ -21,16 +21,16 @@ public class LaserSwitcher : MonoBehaviour
 
     public bool enableLaser
         {
-        get => _enableLaser;
-        }
+        get => _enableLaser; 
+    }
     public bool updateLaser
         {
-        get => _updateLaser;
+        get => _updateLaser; set { bool upLaser = _updateLaser; }
         }
     public bool disableLaser
         {
-        get => _disableLaser;
-        }
+        get => _disableLaser; 
+    }
     void Start()
     {
         _enableLaser = false;
@@ -52,7 +52,7 @@ public class LaserSwitcher : MonoBehaviour
             laserIndex = 0;
         }
     }
-    void LaserSwitch()
+     void LaserSwitch()
     {
         if (_player.position.x < transform.position.x)
         {

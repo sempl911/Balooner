@@ -27,6 +27,11 @@ public class PusherController : MonoBehaviour
         get => _goBack;
     }
 
+    public bool FacingRight
+    {
+        get => _facingRight;
+    }
+
     private void Start()
     {
         player = GameObject.Find("Player").transform;

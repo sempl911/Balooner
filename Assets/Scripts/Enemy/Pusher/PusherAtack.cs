@@ -6,6 +6,7 @@ public class PusherAtack : MonoBehaviour
 {
     [SerializeField] private GameObject damagePlatform;
     [SerializeField] private GameObject modelAnim;
+    [SerializeField] private GameObject _pusherController;
     PlayerHealth damagePlayer;
     Animator atackAnim;
     PusherController angryCondition;
@@ -13,7 +14,7 @@ public class PusherAtack : MonoBehaviour
     {
         damagePlayer = GameObject.Find("Player").GetComponent<PlayerHealth>();
         atackAnim = modelAnim.GetComponent<Animator>();
-        angryCondition = transform.root.GetComponent<PusherController>();
+        angryCondition = _pusherController.GetComponent<PusherController>();
     }
     void Update()
     {
@@ -25,6 +26,7 @@ public class PusherAtack : MonoBehaviour
         {
             atackAnim.SetTrigger("EndAtack");
         }
+     
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

@@ -11,6 +11,8 @@ TagManager:
   - FloatingJoystick
   - TurelProjectile
   - Laser
+  - Obstacle
+  - DirShooter
   layers:
   - Default
   - TransparentFX
