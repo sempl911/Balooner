@@ -31,7 +31,6 @@ public class TurelHealth : MonoBehaviour
         spritRend = modelTurel.GetComponent<SpriteRenderer>();
         spritRendTrunk = modelTurelTrunk.GetComponent<SpriteRenderer>();
 
-
         matBlink = Resources.Load("TurelMaterial", typeof(Material)) as Material;
         matBlinkTrunk = Resources.Load("TurelMaterial", typeof(Material)) as Material;
 
