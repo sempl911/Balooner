@@ -11,6 +11,7 @@ public class TankController : MonoBehaviour
     [SerializeField] private GameObject _tankDetCollider;
     [SerializeField] private GameObject _illuminations;
     [SerializeField] private GameObject _tankProjectorLight;
+    [SerializeField] private float _atackDistance = 19f;
 
     [SerializeField] private float leftLim, rightLim;
 
@@ -34,6 +35,7 @@ public class TankController : MonoBehaviour
         _tankDet = _tankDetCollider.GetComponent<TankColliderDetect>();
         _atackMagnetoOn = gameObject.GetComponent<Animator>();
         _illuminations.SetActive(false);
+        _tankDetCollider.SetActive(false);
         _projectorLight = _tankProjectorLight.GetComponent<Light2D>();
         defaultColor = _projectorLight.color;
     }
@@ -42,6 +44,7 @@ public class TankController : MonoBehaviour
     {
         RotationMagnetoToPlayer();
         DetectPlayer();
+        TankActivateAtack();
     }
     private void FixedUpdate()
     {
@@ -120,6 +123,17 @@ public class TankController : MonoBehaviour
         float t = Mathf.PingPong(Time.time, _blinkDuration) / _blinkDuration;
         _projectorLight.color = Color.Lerp(color0, color1, t);
         _projectorLight.intensity = .5f;
+    }
+    void TankActivateAtack()
+    {
+        if (Vector2.Distance(_playerPos.transform.position, transform.position) < _atackDistance)
+        {
+            _tankDetCollider.SetActive(true);
+        }
+        if (Vector2.Distance(_playerPos.transform.position, transform.position) > _atackDistance)
+        {
+            _tankDetCollider.SetActive(false);
+        }
     }
 }
 /*

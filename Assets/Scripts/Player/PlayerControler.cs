@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
 {
-    [SerializeField] private float speed = 10f;
+    [SerializeField] private float speed;
     [SerializeField] private Transform playerTransformModel;
 
     Rigidbody2D _rB;
@@ -47,7 +47,8 @@ public class PlayerControler : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        _rB.velocity = new Vector2(_horizontal * speed * speedMultiplier * Time.fixedDeltaTime, _vertical * speed * speedMultiplier * Time.fixedDeltaTime);
+        PlayerKeyBoardControl();
+       // PlayerAltControl();
         if (_horizontal > 0 && _isFacingRight)
         {
             Flip();
@@ -176,7 +177,32 @@ public class PlayerControler : MonoBehaviour
         }
         
     }
+    void PlayerKeyBoardControl()
+    {
+        _rB.velocity = new Vector2(_horizontal * speed * speedMultiplier * Time.fixedDeltaTime, _vertical * speed * speedMultiplier * Time.fixedDeltaTime);
+    }
+    void PlayerAltControl()
+    {
+        float m_Speed = 1f;
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            _rB.velocity = (Vector2)transform.up * speed * m_Speed;
+        }
 
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            _rB.velocity = (Vector2)(-transform.up) * speed * m_Speed;
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _rB.velocity = Vector2.left * speed * m_Speed;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            _rB.velocity = Vector2.right * speed * m_Speed;
+        }
+    }
     void PlayerBoost()
     {
         if (Input.GetKeyUp(KeyCode.Space))

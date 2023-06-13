@@ -8,12 +8,12 @@ public class TankDamageMagneto : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _tankDetectCollider;
+    [SerializeField] private float _magnetoStrench = 1f;
 
     TankColliderDetect _playerIsDet;
 
     private bool _isPlayerDetect;
     private bool _isTankDamage = false;
-    private float _magnetoStrench = 2f;
     private float _timeToSmall = .2f;
     private float _smallInterval = .1f;
     private float _timeToAction = .5f;
