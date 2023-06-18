@@ -181,6 +181,7 @@ public class PlayerControler : MonoBehaviour
     {
         _rB.velocity = new Vector2(_horizontal * speed * speedMultiplier * Time.fixedDeltaTime, _vertical * speed * speedMultiplier * Time.fixedDeltaTime);
     }
+
     void PlayerAltControl()
     {
         float m_Speed = 1f;
