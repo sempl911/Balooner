@@ -4,38 +4,31 @@ using UnityEngine;
 
 public class PlayerSoftController : MonoBehaviour
 {
-    [SerializeField] private float _speed = 4f;
-    [SerializeField] private GameObject _model;
-    [SerializeField] private GameObject _player;
-    
-    private float _vertical;
-    private float _horizontal;
-
+    Rigidbody2D _objRb;
+    float _vertical;
+    float _horizontal;
+    float speed = 20f;
+    private const float speedMultiplier = 20f;
+    private void Start()
+    {
+        _objRb = gameObject.GetComponent<Rigidbody2D>();
+    }
     private void Update()
     {
         _vertical = Input.GetAxis("Vertical");
         _horizontal = Input.GetAxis("Horizontal");
-        //ControlPlayer();
-        PlayerAltControl();
+        ControlPlayer();
+        Jump();
     }
-    void PlayerAltControl()
+    void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            _model.transform.position = new Vector2(1 * _speed, _model.transform.position.y);        }
-
-       /* if (Input.GetKeyDown(KeyCode.S))
-        {
-            _playerRb.velocity = (Vector2)(-transform.up) * _speed * m_Speed;
+            _objRb.AddForce(Vector2.up * 50f, ForceMode2D.Impulse);
         }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            _playerRb.velocity = Vector2.left * _speed * m_Speed;
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            _playerRb.velocity = Vector2.right * _speed * m_Speed;
-        }*/
+    }
+    void ControlPlayer()
+    {
+        _objRb.velocity = new Vector2(_horizontal * speed * speedMultiplier * Time.fixedDeltaTime, _vertical * speed * speedMultiplier * Time.fixedDeltaTime);
     }
 }

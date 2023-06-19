@@ -35,7 +35,7 @@ public class CameraChange_3 : MonoBehaviour
         playerDirection = player.transform.position;
         _playerCurrentPosition = playerDirection.x - transform.position.x;
 
-        raycastHit2D = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 100f);
+        raycastHit2D = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 200f);
         if (raycastHit2D.collider != null)
         {
             if (raycastHit2D.collider.gameObject.GetComponent<PlayerControler>())
