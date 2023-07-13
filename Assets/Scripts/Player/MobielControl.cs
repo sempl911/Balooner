@@ -7,7 +7,7 @@ public class MobielControl : MonoBehaviour
     [SerializeField] private FloatingJoystick _joystick;
     [SerializeField] private Transform playerTransformModel;
     Rigidbody2D _rBmobiel;
-    private float speed = 10f;
+    private float speed = 7f;
     private float _horizontal;
     private float _vertical;
     private bool _isFacingRight;
