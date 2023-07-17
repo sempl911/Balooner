@@ -55,7 +55,7 @@ public class CameraChange_1 : MonoBehaviour
     {
         if (_playerCurrentPosition < 0f)
         {
-            cameraFollow.ChangeCameraLimits(-2.8f, 165f, 6.2f, 0f);
+            cameraFollow.ChangeCameraLimits(-2.8f, 165f, 6.2f, -1f);
         }
         if (_playerCurrentPosition > 0f)
         {

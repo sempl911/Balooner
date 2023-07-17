@@ -35,7 +35,7 @@ public class CameraChange_4 : MonoBehaviour
         playerDirection = player.transform.position;
         _playerCurrentPosition = playerDirection.x - transform.position.x;
 
-        raycastHit2D = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 100f);
+        raycastHit2D = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 200f);
         if (raycastHit2D.collider != null)
         {
             if (raycastHit2D.collider.gameObject.GetComponent<PlayerControler>())
@@ -49,15 +49,15 @@ public class CameraChange_4 : MonoBehaviour
     }
     void ChangeCamera()
     {
-        if (_playerCurrentPosition < 0f) // Игрок до чекпоинта
+        if (_playerCurrentPosition < 0f)
         {
             cameraFollow.zoom = _changeZoom;
-            cameraFollow.ChangeCameraLimits(90f, 350f, 20f, 2f);
+            cameraFollow.ChangeCameraLimits(camLeftLimit, camRigthLimit, camTopLimit, camBottomLimit);
         }
-        if (_playerCurrentPosition > 0f) // Игрок после чекпоинта
+        if (_playerCurrentPosition > 0f)
         {
             cameraFollow.zoom = -_changeZoom;
-            cameraFollow.ChangeCameraLimits(camLeftLimit, camRigthLimit, camTopLimit, camBottomLimit);
+            cameraFollow.ChangeCameraLimits(90f, 350f, 14f, 2.4f);
         }
     }
     void ChekWherePlayer() // Отключение изменений камеры
