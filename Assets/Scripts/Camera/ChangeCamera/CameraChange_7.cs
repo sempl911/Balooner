@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraChange_6 : MonoBehaviour
+public class CameraChange_7 : MonoBehaviour
 {
-     private GameObject player;
+    private GameObject player;
+    [SerializeField]private GameObject camPrevies;
+    private CameraChange_6 previesCam;
     //Before
     [SerializeField] private float camBeforeLeft;
     [SerializeField] private float camBeforRigth;
@@ -17,6 +19,7 @@ public class CameraChange_6 : MonoBehaviour
     [SerializeField] private float camAfterTop;
     [SerializeField] private float camAfterBottom;
 
+    //Befor public 
     public float CamBeforeLeft
     {
         get => camBeforeLeft;
@@ -33,6 +36,25 @@ public class CameraChange_6 : MonoBehaviour
     {
         get => camBeforeBottom;
     }
+
+    //After public
+    public float CamAfterLeft
+    {
+        get => camAfterLeft;
+    }
+    public float CamAfterRigth
+    {
+        get => camAfterRigth;
+    }
+    public float CamAfterTop
+    {
+        get => camAfterTop;
+    }
+    public float CamAfterBottom
+    {
+        get => camAfterBottom;
+    }
+
     private float _playerCurrentPosition;
     private float _changeZoom = 20f;
     private bool _isPlayerNear;
@@ -44,7 +66,13 @@ public class CameraChange_6 : MonoBehaviour
     void Start()
     {
         cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
+        previesCam = camPrevies.GetComponent<CameraChange_6>();
         player = GameObject.Find("Player");
+        camBeforeLeft = previesCam.CamBeforeLeft;
+        camBeforRigth = previesCam.CamBeforeRigth;
+        camBeforeTop = previesCam.CamBeforeTop;
+        camBeforeBottom = previesCam.CamBeforeBottom;
+
     }
 
     // Update is called once per frame
@@ -75,12 +103,12 @@ public class CameraChange_6 : MonoBehaviour
     {
         if (_playerCurrentPosition < 0f)
         {
-            cameraFollow.zoom = -_changeZoom;
+            cameraFollow.zoom = _changeZoom;
             cameraFollow.ChangeCameraLimits(camBeforeLeft, camBeforRigth, camBeforeTop, camBeforeBottom);
         }
         if (_playerCurrentPosition > 0f)
         {
-            cameraFollow.zoom = _changeZoom;
+            cameraFollow.zoom = -_changeZoom;
             cameraFollow.ChangeCameraLimits(camAfterLeft, camAfterRigth, camAfterTop, camAfterBottom);
         }
     }

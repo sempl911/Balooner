@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraChange_6 : MonoBehaviour
+public class CameraChange_8 : MonoBehaviour
 {
-     private GameObject player;
+    public bool isZoomBack;
+
+    private GameObject player;
+    [SerializeField] private GameObject camPrevies;
+    private CameraChange_7 previesCam;
+    private CameraFollow zoomChangeLimit;
+    Camera cam;
     //Before
     [SerializeField] private float camBeforeLeft;
     [SerializeField] private float camBeforRigth;
@@ -33,6 +39,7 @@ public class CameraChange_6 : MonoBehaviour
     {
         get => camBeforeBottom;
     }
+
     private float _playerCurrentPosition;
     private float _changeZoom = 20f;
     private bool _isPlayerNear;
@@ -44,14 +51,22 @@ public class CameraChange_6 : MonoBehaviour
     void Start()
     {
         cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
+        previesCam = camPrevies.GetComponent<CameraChange_7>();
         player = GameObject.Find("Player");
+        cam = Camera.main;
+        zoomChangeLimit = cam.GetComponent<CameraFollow>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         FindPlayer();
         ChekWherePlayer();
+        camBeforeLeft = previesCam.CamAfterLeft;
+        camBeforRigth = previesCam.CamAfterRigth;
+        camBeforeTop = previesCam.CamAfterTop;
+        camBeforeBottom = previesCam.CamAfterBottom;
     }
     void FindPlayer()
     {
@@ -75,12 +90,15 @@ public class CameraChange_6 : MonoBehaviour
     {
         if (_playerCurrentPosition < 0f)
         {
+            ZoomBack(-66f);
+
             cameraFollow.zoom = -_changeZoom;
             cameraFollow.ChangeCameraLimits(camBeforeLeft, camBeforRigth, camBeforeTop, camBeforeBottom);
         }
         if (_playerCurrentPosition > 0f)
         {
-            cameraFollow.zoom = _changeZoom;
+            ZoomTempChangeToBoss(-78.5f);
+            cameraFollow.zoom = -_changeZoom - 10f;
             cameraFollow.ChangeCameraLimits(camAfterLeft, camAfterRigth, camAfterTop, camAfterBottom);
         }
     }
@@ -94,5 +112,23 @@ public class CameraChange_6 : MonoBehaviour
         {
             _isPlayerNear = true;
         }
+    }
+
+    float ZoomTempChangeToBoss(float tmpZoom)
+    {
+        zoomChangeLimit.ZoomOutLimit = tmpZoom;
+        return zoomChangeLimit.ZoomOutLimit;
+    }
+    float ZoomBack(float tmpZoom)
+    {
+        if (isZoomBack)
+        {
+            do
+            {
+                zoomChangeLimit.ZoomOutLimit += 1.5f * Time.deltaTime;
+            } while (tmpZoom <= zoomChangeLimit.ZoomOutLimit);
+        }
+       
+        return zoomChangeLimit.ZoomOutLimit;
     }
 }

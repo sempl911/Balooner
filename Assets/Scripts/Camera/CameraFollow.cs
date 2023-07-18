@@ -21,26 +21,28 @@ public class CameraFollow : MonoBehaviour
 
     [SerializeField] private float zoomOutLimit = -66f;
     [SerializeField] private float zoomInLimit = -40f;
+
+    public float ZoomOutLimit
+    {
+        get => zoomOutLimit;
+        set
+        {
+           zoomOutLimit = value;
+        }
+    }
+
     // Conected scripts
     private PlayerControler playerControler;
     // Changes in game
     private int _LastX;
     private Transform _player;
-    private float _bottomTemp;
-    private float _topTemp;
-    private float _leftTemp;
-    private float _rightTemp;
-
+    
     // Start is called before the first frame update
     void Start()
     {
         offset = new Vector3(Mathf.Abs(offset.x), Mathf.Abs(offset.y), offset.z);
         Finde_player(isLeft);
         playerControler = GameObject.Find("Player").GetComponent<PlayerControler>();
-        _bottomTemp = _bottomLimit;
-        _topTemp = _topLimit;
-        _leftTemp = _leftLimit;
-        _rightTemp = _rightLimit;
     }
     public void Finde_player(bool _playerisLeft)
     {
