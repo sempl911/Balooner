@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraChange_7 : MonoBehaviour
+public class CameraChange_9 : MonoBehaviour
 {
     private GameObject player;
-    [SerializeField]private GameObject camPrevies;
-    private CameraChange_6 previesCam;
+    [SerializeField] private GameObject camPrevies;
+    private CameraChange_8 previesCam;
+    private CameraFollow zoomChangeLimit;
+    Camera cam;
     //Before
     [SerializeField] private float camBeforeLeft;
     [SerializeField] private float camBeforRigth;
@@ -19,7 +21,7 @@ public class CameraChange_7 : MonoBehaviour
     [SerializeField] private float camAfterTop;
     [SerializeField] private float camAfterBottom;
 
-    //Befor public 
+    //Before public
     public float CamBeforeLeft
     {
         get => camBeforeLeft;
@@ -36,7 +38,6 @@ public class CameraChange_7 : MonoBehaviour
     {
         get => camBeforeBottom;
     }
-
     //After public
     public float CamAfterLeft
     {
@@ -66,13 +67,10 @@ public class CameraChange_7 : MonoBehaviour
     void Start()
     {
         cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
-        previesCam = camPrevies.GetComponent<CameraChange_6>();
+        previesCam = camPrevies.GetComponent<CameraChange_8>();
         player = GameObject.Find("Player");
-        camBeforeLeft = previesCam.CamBeforeLeft;
-        camBeforRigth = previesCam.CamBeforeRigth;
-        camBeforeTop = previesCam.CamBeforeTop;
-        camBeforeBottom = previesCam.CamBeforeBottom;
-
+        cam = Camera.main;
+        zoomChangeLimit = cam.GetComponent<CameraFollow>();
     }
 
     // Update is called once per frame
@@ -80,6 +78,10 @@ public class CameraChange_7 : MonoBehaviour
     {
         FindPlayer();
         ChekWherePlayer();
+        camBeforeLeft = previesCam.CamAfterLeft;
+        camBeforRigth = previesCam.CamAfterRigth;
+        camBeforeTop = previesCam.CamAfterTop;
+        camBeforeBottom = previesCam.CamAfterBottom;
     }
     void FindPlayer()
     {
@@ -103,15 +105,20 @@ public class CameraChange_7 : MonoBehaviour
     {
         if (_playerCurrentPosition < 0f)
         {
-            cameraFollow.ZoomInLimit = -40f;
-            cameraFollow.ZoomOutLimit = -66f;
-            cameraFollow.zoom = _changeZoom;
+            
+            zoomChangeLimit.Dumping = 2.5f;
+            ZoomLimitOut(-100f);
+            cameraFollow.zoom = -_changeZoom - 80f;
             cameraFollow.ChangeCameraLimits(camBeforeLeft, camBeforRigth, camBeforeTop, camBeforeBottom);
         }
         if (_playerCurrentPosition > 0f)
         {
-            cameraFollow.zoom = -_changeZoom;
+            zoomChangeLimit.Dumping = 2.5f;
+            //ZoomLimitOut(-66f);
+            zoomChangeLimit.ZoomInLimit = -40f;
+            cameraFollow.zoom = _changeZoom;
             cameraFollow.ChangeCameraLimits(camAfterLeft, camAfterRigth, camAfterTop, camAfterBottom);
+
         }
     }
     void ChekWherePlayer() // Отключение изменений камеры
@@ -125,4 +132,12 @@ public class CameraChange_7 : MonoBehaviour
             _isPlayerNear = true;
         }
     }
+
+    float ZoomLimitOut(float tmpZoom)
+    {
+        zoomChangeLimit.ZoomOutLimit = tmpZoom;
+
+        return zoomChangeLimit.ZoomOutLimit;
+    }
+    
 }

@@ -57,7 +57,7 @@ public class CameraChange_4 : MonoBehaviour
         if (_playerCurrentPosition > 0f)
         {
             cameraFollow.zoom = -_changeZoom;
-            cameraFollow.ChangeCameraLimits(90f, 350f, 14f, 2.4f);
+            cameraFollow.ChangeCameraLimits(90f, 350f, 14f, 2f);
         }
     }
     void ChekWherePlayer() // Отключение изменений камеры

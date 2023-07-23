@@ -30,7 +30,21 @@ public class CameraFollow : MonoBehaviour
            zoomOutLimit = value;
         }
     }
-
+    public float ZoomInLimit
+    {
+        get => zoomInLimit;
+        set
+        {
+            zoomInLimit = value;
+        }
+    }
+    public float Dumping
+    {
+        set
+        {
+            dumping = value;
+        }
+    }
     // Conected scripts
     private PlayerControler playerControler;
     // Changes in game
