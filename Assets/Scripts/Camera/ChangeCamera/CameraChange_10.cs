@@ -89,15 +89,15 @@ public class CameraChange_10 : MonoBehaviour
         {
             zoomChangeLimit.Dumping = 2.5f;
             //ZoomLimitOut(-66f);
-            zoomChangeLimit.ZoomInLimit = -40f;
-            cameraFollow.zoom = _changeZoom;
+           // zoomChangeLimit.ZoomInLimit = -40f;
+           // cameraFollow.zoom = _changeZoom;
             cameraFollow.ChangeCameraLimits(camBeforeLeft, camBeforRigth, camBeforeTop, camBeforeBottom);
         }
         if (_playerCurrentPosition > 0f)
         {
             zoomChangeLimit.Dumping = 2.5f;
-            ZoomLimitOut(-66f);
-            cameraFollow.zoom = -_changeZoom;
+           // ZoomLimitOut(-66f);
+            //cameraFollow.zoom = -_changeZoom;
             cameraFollow.ChangeCameraLimits(camAfterLeft, camAfterRigth, camAfterTop, camAfterBottom);
         }
     }
