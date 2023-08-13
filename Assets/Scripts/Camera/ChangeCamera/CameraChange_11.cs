@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraChange_10 : MonoBehaviour
+public class CameraChange_11 : MonoBehaviour
 {
     private GameObject player;
     [SerializeField] private GameObject camPrevies;
-    private CameraChange_9 previesCam;
+    private CameraChange_10 previesCam;
     private CameraFollow zoomChangeLimit;
     Camera cam;
     //Before
@@ -38,24 +38,8 @@ public class CameraChange_10 : MonoBehaviour
         get => camBeforeBottom;
     }
 
-    public float CamAfterLeft
-    {
-        get => camAfterLeft;
-    }
-    public float CamAfterRigth
-    {
-        get => camAfterRigth;
-    }
-    public float CamAfterTop
-    {
-        get => camAfterTop;
-    }
-    public float CamAfterBottom
-    {
-        get => camAfterBottom;
-    }
     private float _playerCurrentPosition;
-//    private float _changeZoom = 20f;
+    //    private float _changeZoom = 20f;
     private bool _isPlayerNear;
 
     CameraFollow cameraFollow;
@@ -65,7 +49,7 @@ public class CameraChange_10 : MonoBehaviour
     void Start()
     {
         cameraFollow = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
-        previesCam = camPrevies.GetComponent<CameraChange_9>();
+        previesCam = camPrevies.GetComponent<CameraChange_10>();
         player = GameObject.Find("Player");
         cam = Camera.main;
         zoomChangeLimit = cam.GetComponent<CameraFollow>();
@@ -76,6 +60,7 @@ public class CameraChange_10 : MonoBehaviour
     {
         FindPlayer();
         ChekWherePlayer();
+        //PlayerInZone();
         camBeforeLeft = previesCam.CamAfterLeft;
         camBeforRigth = previesCam.CamAfterRigth;
         camBeforeTop = previesCam.CamAfterTop;
@@ -85,9 +70,9 @@ public class CameraChange_10 : MonoBehaviour
     {
         // Find curret player position
         playerDirection = player.transform.position;
-        _playerCurrentPosition = playerDirection.x - transform.position.x;
+        _playerCurrentPosition = playerDirection.y - transform.position.y;
 
-        raycastHit2D = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.up), 200f);
+        raycastHit2D = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector3.right), 200f);
         if (raycastHit2D.collider != null)
         {
             if (raycastHit2D.collider.gameObject.GetComponent<PlayerControler>())
@@ -105,14 +90,14 @@ public class CameraChange_10 : MonoBehaviour
         {
             zoomChangeLimit.Dumping = 2.5f;
             //ZoomLimitOut(-66f);
-           // zoomChangeLimit.ZoomInLimit = -40f;
-           // cameraFollow.zoom = _changeZoom;
+            // zoomChangeLimit.ZoomInLimit = -40f;
+            // cameraFollow.zoom = _changeZoom;
             cameraFollow.ChangeCameraLimits(camBeforeLeft, camBeforRigth, camBeforeTop, camBeforeBottom);
         }
         if (_playerCurrentPosition > 0f)
         {
             zoomChangeLimit.Dumping = 2.5f;
-           // ZoomLimitOut(-66f);
+            // ZoomLimitOut(-66f);
             //cameraFollow.zoom = -_changeZoom;
             cameraFollow.ChangeCameraLimits(camAfterLeft, camAfterRigth, camAfterTop, camAfterBottom);
         }
@@ -128,7 +113,14 @@ public class CameraChange_10 : MonoBehaviour
             _isPlayerNear = true;
         }
     }
-
+    void PlayerInZone()
+    {
+        if (Vector2.Distance(transform.position, player.transform.position) > .5f && _playerCurrentPosition > 0f)
+        {
+            cameraFollow.ChangeCameraLimits(537f);
+        }
+        Debug.Log(Vector2.Distance(transform.position, player.transform.position));
+    }
     float ZoomLimitOut(float tmpZoom)
     {
         zoomChangeLimit.ZoomOutLimit = tmpZoom;

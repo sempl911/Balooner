@@ -122,5 +122,9 @@ public class CameraFollow : MonoBehaviour
             var result = (_leftLimit = leftLim, _rightLimit = rightLim, _topLimit = topLim, _bottomLimit = bottomLim);
             return result;
         }
-    
+    public float ChangeCameraLimits(float leftLim)
+    {
+        _leftLimit = leftLim;
+        return _leftLimit;
+    }
 }
