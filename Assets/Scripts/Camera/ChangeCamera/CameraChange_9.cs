@@ -107,7 +107,7 @@ public class CameraChange_9 : MonoBehaviour
         {
             
             zoomChangeLimit.Dumping = 2.5f;
-            ZoomLimitOut(-100f);
+            ZoomLimitOut(-120f);
             cameraFollow.zoom = -_changeZoom - 80f;
             cameraFollow.ChangeCameraLimits(camBeforeLeft, camBeforRigth, camBeforeTop, camBeforeBottom);
         }

@@ -5,88 +5,129 @@ using UnityEngine;
 
 public class BossCaveController : MonoBehaviour
 {
-    [SerializeField] GameObject balancePoint;
-    [SerializeField] GameObject playerModel;
-    [SerializeField] GameObject bossBody;
-    private bool _playerDetect;
-    Animator bossAnimator;
+    [SerializeField] GameObject player;
+    [SerializeField] float _detectDistance = 10f;
+    [SerializeField] int _bossPhase = 0;
 
-    [SerializeField] private float _offset = 0;
-    [SerializeField] private float _distanceDetect = 20;
+    Animator bossCaveAnimator;
 
+    float _timeToEndPhase = 4f;
+    float _timeToChangePhase = 4f;
+    bool _isGunAtack;
+    public bool isGunAtack
+    {
+        get => _isGunAtack;
+    }
     private void Start()
     {
-        bossAnimator = gameObject.GetComponent<Animator>();
+        bossCaveAnimator = gameObject.GetComponent<Animator>();
+        bossCaveAnimator.SetBool("BossWakeUp", true);
     }
     private void Update()
     {
-        TurnToPlayer();
-        DetectPlayer();
-    }
-    void TurnToPlayer()
-    {
-        if (_playerDetect)
+        _timeToEndPhase -= Time.fixedDeltaTime;
+        _timeToChangePhase -= Time.fixedDeltaTime;
+
+        // TIME TO END PHASE BOSS
+        if (_timeToEndPhase <= 0)
         {
-            Vector3 diff = playerModel.transform.position - bossBody.transform.position;
-            float rotateZ = Mathf.Atan2(diff.x, diff.y) * Mathf.Rad2Deg;
-            Quaternion rotate = Quaternion.Euler(0, 0, - rotateZ + _offset);
-            bossBody.transform.rotation = rotate;
+            BossGunPhaseUpEnd();
+            BossEndRocketAtack();
+            BossManeurEnd();
         }
-    }
-    void DetectPlayer()
-    {
-        if (Vector2.Distance(playerModel.transform.position, transform.position) < _distanceDetect)
+        // TIME TO CHANGE PHASE
+        if (_timeToChangePhase <=0)
         {
-            _playerDetect = true;
+            _timeToChangePhase = 4;
+            _bossPhase++;
+            if (_bossPhase > 3)
+            {
+                _bossPhase = 0;
+            }
         }
-        else
+        if (Input.GetKeyDown(KeyCode.T))
         {
-            _playerDetect = false;
+            _timeToEndPhase = 3f;
+            BossGunPhaseUp();
         }
-    }
-    void BossMove()
-    {
-       /* if (_playerUp)
+        if (Input.GetKeyDown(KeyCode.Y))
         {
-            bossAnimator.SetBool("UpBool", false);
-            bossAnimator.SetBool("DownBool", true);
+            _timeToEndPhase = 2f;
+            BossRocketAtack();
         }
-        if (_playerDown)
-        {
-            bossAnimator.SetBool("DownBool", false);
-            //bossAnimator.SetFloat("SpeedUp", 1f);
-            bossAnimator.SetBool("UpBool", true);
-        }*/
-    }
-    void AnimKeyRun()
-    {
         if (Input.GetKeyDown(KeyCode.U))
         {
-            bossAnimator.SetBool("DownBool", false);
-            bossAnimator.SetFloat("SpeedUp", 1f);
-            bossAnimator.SetBool("UpBool", true);
+            _timeToEndPhase = 2f;
+            BossManeurStart();
         }
-        if (Input.GetKeyDown(KeyCode.J))
+        BossWakeUp();
+        ChangeBossPhase();
+    }
+   void BossWakeUp()
+    {
+        if (Vector2.Distance(player.transform.position, transform.position) < _detectDistance)
         {
-            bossAnimator.SetBool("DownBool", false);
-
-            bossAnimator.SetFloat("SpeedUp", -1f);
-
-            bossAnimator.SetBool("UpBool", true);
+            bossCaveAnimator.SetBool("BossWakeUp", true);
         }
-        if (Input.GetKeyDown(KeyCode.I))
+    }
+    void BossGunPhaseUp()
+    {
+        bossCaveAnimator.SetBool("BossUp", true);
+        bossCaveAnimator.SetBool("GunAtack", true);
+        _isGunAtack = true;
+    }
+    void BossGunPhaseUpEnd()
+    {
+        bossCaveAnimator.SetBool("GunAtack", false);
+        bossCaveAnimator.SetBool("BossUp", false);
+        _isGunAtack = false;
+    }
+    void BossRocketAtack()
+    {
+        bossCaveAnimator.SetBool("BossDown", true);
+        bossCaveAnimator.SetBool("RocketAtack", true);
+    }
+    void BossEndRocketAtack()
+    {
+        bossCaveAnimator.SetBool("BossDown", false);
+        bossCaveAnimator.SetBool("RocketAtack", false);
+    }
+    void BossManeurStart()
+    {
+        bossCaveAnimator.SetBool("BossManeur1", true);
+    }
+    void BossManeurEnd()
+    {
+        bossCaveAnimator.SetBool("BossManeur1", false);
+    }
+    void ChangeBossPhase()
+    {
+        switch (_bossPhase)
         {
-            bossAnimator.SetBool("UpBool", false);
-
-            bossAnimator.SetFloat("SpeedDown", 1f);
-            bossAnimator.SetBool("DownBool", true);
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            bossAnimator.SetBool("UpBool", false);
-
-            bossAnimator.SetFloat("SpeedDown", -1f);
-            bossAnimator.SetBool("DownBool", true);
+            case 1:
+                _timeToEndPhase = 3f;
+                BossGunPhaseUp();
+                BossEndRocketAtack();
+                BossManeurEnd();
+                break;
+            case 2:
+                _timeToEndPhase = 2f;
+                BossRocketAtack();
+                BossGunPhaseUpEnd();
+                BossManeurEnd();
+                break;
+            case 3:
+                _timeToEndPhase = 2f;
+                BossManeurStart();
+                BossGunPhaseUpEnd();
+                BossEndRocketAtack();
+                break;
+            default:
+                BossGunPhaseUpEnd();
+                BossEndRocketAtack();
+                BossManeurEnd();
+                bossCaveAnimator.SetBool("BossWakeUp", true);
+                break;
         }
     }
 }

@@ -29,7 +29,14 @@ public class PlayerControler : MonoBehaviour
     {
         get => _isFacingRight;
     }
-
+    public float InputVertical
+    {
+        get => _vertical;
+    }
+    public float InputHorizontal
+    {
+        get => _horizontal;
+    }
     private void Start()
     {
         _rB = GetComponent<Rigidbody2D>();

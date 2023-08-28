@@ -113,7 +113,7 @@ public class CameraChange_8 : MonoBehaviour
         if (_playerCurrentPosition > 0f)
         {
             zoomChangeLimit.Dumping = 2.5f;
-            ZoomLimitOut(-100f);
+            ZoomLimitOut(-120f);
             cameraFollow.zoom = -_changeZoom;
             cameraFollow.ChangeCameraLimits(camAfterLeft, camAfterRigth, camAfterTop, camAfterBottom);
         }
